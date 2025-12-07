@@ -246,7 +246,7 @@ def sha3(evm):
     evm.pc += 1
 
     # calculate gas
-    minimum_word_size = (size + 31) // 32
+    minimum_word_size = (size + 31) / 32
     dynamic_gas = 6 * minimum_word_size # TODO: + memory_expansion_cost
     evm.gas_dec(30 + dynamic_gas)    
 
@@ -350,7 +350,7 @@ def extcodecopy(evm):
     memory_expansion_cost = evm.memory.store(destOffset, extcode)
 
     # refactor this in seperate method
-    minimum_word_size = (size + 31) // 32
+    minimum_word_size = (size + 31) / 32
     dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
     warm = False  # TODO: implement warm/cold address tracking
     address_access_cost = 100 if warm else 2600
@@ -370,7 +370,7 @@ def returndatacopy(evm):
     returndata            = evm.program[offset:offset+size]
     memory_expansion_cost = evm.memory.store(destOffset, returndata)
 
-    minimum_word_size = (size + 31) // 32
+    minimum_word_size = (size + 31) / 32
     dynamic_gas = 3 * minimum_word_size + memory_expansion_cost
 
     evm.gas_dec(3 + dynamic_gas)
