@@ -21,6 +21,14 @@ class Stack:
         if not self.is_empty():
             return self.items.pop()
         raise IndexError("pop from empty stack")
+
+    def peek(self, depth=0):
+        if depth < 0:
+            raise ValueError("depth must be non-negative")
+        if depth >= self.size():
+            raise IndexError("peek depth exceeds stack size")
+        return self.items[-(depth + 1)]
+
     @property
     def stack(self):
         return self.items.copy()

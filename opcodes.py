@@ -403,7 +403,7 @@ def timestamp(evm):
 def _pop(evm):
     evm.pc += 1
     evm.gas_dec(2)
-    evm.stack.pop(0)
+    evm.stack.pop()
 def mload(evm): 
     offset = evm.stack.pop()
     value = evm.memory.load(offset)
@@ -511,9 +511,14 @@ def _push(evm, n):
     evm.stack.push(value % MOD) # enforce 256-bit wraparound
    
 
+def _ensure_stack_depth(evm, depth):
+    if evm.stack.size() < depth:
+        raise IndexError("stack underflow")
+
+
 def _dup(evm, n):
-    # make sure stack is big enough!
-    value = evm.stack[n]
+    _ensure_stack_depth(evm, n)
+    value = evm.stack.peek(n - 1)
     evm.stack.push(value)
 
     evm.pc += 1
@@ -522,12 +527,14 @@ def _dup(evm, n):
 
 
 def _swap(evm, n):
-    # swap top (index 0) with nth item from top (index n)
-    value1 = evm.stack.items[-1]       # top of stack
-    value2 = evm.stack.items[-(n+1)]   # nth item (1-based)
+    _ensure_stack_depth(evm, n + 1)
+    top_index = -1
+    other_index = -(n + 1)
 
-    evm.stack.items[-1] = value2
-    evm.stack.items[-(n+1)] = value1
+    evm.stack.items[top_index], evm.stack.items[other_index] = (
+        evm.stack.items[other_index],
+        evm.stack.items[top_index],
+    )
 
     evm.pc += 1
     evm.gas_dec(3)    
