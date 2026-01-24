@@ -1,6 +1,6 @@
 # scratching-evm
 
-A minimal Ethereum Virtual Machine implementation in Python for learning purposes. Supports basic EVM opcodes including arithmetic, logic, stack operations, memory, storage, and jumps with gas metering.
+A minimal Ethereum Virtual Machine implementation in Python for learning purposes based on [@shafu0x](https://github.com/shafu0x) [evm-from-scratch-book](https://github.com/shafu0x/evm-from-scratch-book). Supports basic EVM opcodes including arithmetic, logic, stack operations, memory, storage, and jumps with gas metering.
 
 ## Quick Start
 
